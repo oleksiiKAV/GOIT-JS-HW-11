@@ -22,6 +22,7 @@ form.addEventListener("submit", (event) => {
     // imgList.innerHTML = "<div class='gallery'></div>"
     if (searchStr.value !== "") {
         getImages()
+
     }
     else {
         infoSys("warn", "Please type a search query!")

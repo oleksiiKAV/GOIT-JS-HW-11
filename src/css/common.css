@@ -166,7 +166,7 @@ form.search-form::after {
 
 .btn-to-top {
   position: fixed;
-  bottom: 3vh;
+  bottom: 2vh;
   right: 1vw;
   z-index: 1000;
   width: 50px;
