@@ -36,7 +36,7 @@ export async function getImages() {
         const endTime = performance.now();
         const data = res.data;
 
-        if (data.length === 0) {
+        if (data.totalHits === 0) {
             infoSys("warn", "Sorry, there are no images matching your search query. Please try again.")
         }
         else {
@@ -58,11 +58,10 @@ export async function getImages() {
     }
     catch (err) {
         if (err.response) {
-            // ✅ log status code here
             console.log(err.response.status);
             console.log(err.message);
-            console.log(err.response.headers); // 👉️ {... response headers here}
-            console.log(err.response.data); // 👉️ {... response data here}
+            console.log(err.response.headers);
+            console.log(err.response.data);
         }
     }
 }

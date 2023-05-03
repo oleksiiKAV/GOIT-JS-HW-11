@@ -26,6 +26,9 @@ export function showImages(data) {
     const img = document.createElement("img");
     img.classList.add('gallery__image');
     img.setAttribute("src", item.webformatURL);
+    // img.setAttribute("src", "../images/load.png"); // добавляем изображение-заглушку
+    // img.setAttribute("data-src", item.webformatURL); // добавляем основное изображение
+
     img.setAttribute("alt", item.tags);
     img.setAttribute("loading", "lazy");
 
@@ -74,8 +77,30 @@ export function showImages(data) {
 
   });
   gallery.append(...listItems);
+  // try to set src to sdata-src
+  // console.log(gallery)
+  // const images = gallery.querySelectorAll('.gallery__image');
+  // images.forEach(image => {
+  //   console.log("image.complete", image.complete)
+  //   if (image.complete) {
+  //     console.log("data-src=", image.getAttribute('data-src'))
+  //     image.setAttribute('src', image.getAttribute('data-src'));
+  //   } else {
+  //     console.log("data-src=", image.getAttribute('data-src'))
+  //     // debugger
+  //     image.addEventListener('load', (e) => {
+
+  //       console.log("LOADING+++++++++++++++++")
+  //       image.setAttribute('src', image.getAttribute('data-src'));
+  //       console.log("src=", image.getAttribute('src'))
+  //     });
+
+  //     console.log(getEventListeners(image))
+  //   }
+  // });
 
   let galleryBox = new SimpleLightbox('.gallery a');
+  galleryBox.options.overlay = true;
   const CURRENT_IMG = 'currentImageIndex'
   galleryBox.on('changed.simplelightbox', () => {
     // console.log(galleryBox.currentImageIndex);
@@ -146,7 +171,7 @@ function onToTopBtn() {
 function onPauseScroll() {
   // isScrollingEnabled = false;
   isScrollingEnabled = !isScrollingEnabled;
-
+  shouldResumeScroll = false;
   setTimeout(() => {
     shouldResumeScroll = true;
     isScrollingEnabled = true
