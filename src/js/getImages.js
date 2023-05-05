@@ -13,11 +13,12 @@ const API_KEY = '35854962-95aa6da93a9a5ed946bcb6885'
 let paginatorPage = 1
 
 const loadMoreBtn = document.querySelector(".load-more");
-
+const toDwnBtn = document.querySelector(".btn-to-dwn");
 loadMoreBtn.addEventListener("click", (event) => {
     // console.log("dddddddddddd")
     paginatorPage = paginatorPage + 1
     getImages()
+    toDwnBtn.classList.add('btn-to-top--visible')
 });
 
 
@@ -44,9 +45,10 @@ export async function getImages() {
             // debugger
             if (data.length !== 0 && paginatorPage === 1) {
                 infoSys("info", `Hooray! We found ${data.totalHits} images in ${((endTime - startTime) / 1000).toFixed(3)} seconds.`)
-                console.log(`Hooray! We found ${data.totalHits} images in ${((endTime - startTime) / 1000).toFixed(3)} seconds.`)
+                // console.log(`Hooray! We found ${data.totalHits} images in ${((endTime - startTime) / 1000).toFixed(3)} seconds.`)
             }
             if (data.totalHits > 40) {
+
                 loadMoreBtn.classList.remove('is-hidden')
             }
             if (data.totalHits > 40 && paginatorPage === totalPages) {

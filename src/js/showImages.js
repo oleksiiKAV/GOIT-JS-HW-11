@@ -77,27 +77,6 @@ export function showImages(data) {
 
   });
   gallery.append(...listItems);
-  // try to set src to sdata-src
-  // console.log(gallery)
-  // const images = gallery.querySelectorAll('.gallery__image');
-  // images.forEach(image => {
-  //   console.log("image.complete", image.complete)
-  //   if (image.complete) {
-  //     console.log("data-src=", image.getAttribute('data-src'))
-  //     image.setAttribute('src', image.getAttribute('data-src'));
-  //   } else {
-  //     console.log("data-src=", image.getAttribute('data-src'))
-  //     // debugger
-  //     image.addEventListener('load', (e) => {
-
-  //       console.log("LOADING+++++++++++++++++")
-  //       image.setAttribute('src', image.getAttribute('data-src'));
-  //       console.log("src=", image.getAttribute('src'))
-  //     });
-
-  //     console.log(getEventListeners(image))
-  //   }
-  // });
 
   let galleryBox = new SimpleLightbox('.gallery a');
   galleryBox.options.overlay = true;
@@ -111,12 +90,43 @@ export function showImages(data) {
 export { onScroll, onToTopBtn }
 
 const toTopBtn = document.querySelector('.btn-to-top')
-//***************************************** */
 
+//************  use "ton" - 67 imgs ***************************** */
+// Получаем кнопку "Вниз"
+const toDwnBtn = document.querySelector('.btn-to-dwn');
+
+// Добавляем обработчик события на нажатие кнопки "Вниз"
+toDwnBtn.addEventListener('click', () => {
+  // Определяем высоту окна браузера и высоту документа
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+  // Прокручиваем страницу до нижней части контента с плавной анимацией
+  window.scrollTo({
+    top: documentHeight - windowHeight,
+    behavior: 'smooth'
+  });
+});
+
+function checkScroll() {
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+
+  const scrollPosition = window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
+
+  if (documentHeight > windowHeight) {
+    // Если страница нуждается в скролле, показываем кнопку "Вниз"
+    toDwnBtn.classList.add('btn-to-top--visible')
+  } else {
+    // Иначе скрываем кнопку "Вниз"
+    toDwnBtn.classList.remove('btn-to-top--visible')
+  }
+}
+// Добавляем обработчики событий на загрузку страницы и прокрутку страницы
+window.addEventListener('load', checkScroll);
 
 window.addEventListener('scroll', onScroll)
 toTopBtn.addEventListener('click', onToTopBtn)
-window.addEventListener('click', onPauseScroll)
+// window.addEventListener('click', onPauseScroll)
 
 let coords = 0;
 let isScrollingEnabled = true;
@@ -124,7 +134,7 @@ let shouldResumeScroll = true;
 
 // if (isScrollingEnabled && shouldResumeScroll) {
 // if (isScrollingEnabled) {
-//   window.addEventListener('scroll', onScroll)
+// window.addEventListener('scroll', stopScrolling)
 // }
 function onScroll() {
   const scrolled = window.pageYOffset
@@ -139,57 +149,21 @@ function onScroll() {
     toTopBtn.classList.remove('btn-to-top--visible')
   }
 
-  // if (isScrollingEnabled) {
-  if (isScrollingEnabled && shouldResumeScroll) {
-    window.scrollBy({
-      top: coords * 2,
-      behavior: "smooth",
-    });
+  if ((window.innerHeight + window.scrollY) > document.body.offsetHeight) {
+
+    // Если страница нуждается в скролле, показываем кнопку "Вниз"
+    toDwnBtn.classList.remove('btn-to-top--visible')
+  } else {
+    // Иначе скрываем кнопку "Вниз"
+    toDwnBtn.classList.add('btn-to-top--visible')
   }
 }
 
 function onToTopBtn() {
   // if (event.targetclassList.contains('btn-to-top--visible')) {
   // debugger
-
   if (window.pageYOffset > 0) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     toTopBtn.classList.remove('btn-to-top--clicked');
-    // window.removeEventListener('scroll', onScroll)
-    // setTimeout(() => {
-    //   isScrollingEnabled = true;
-    //   window.addEventListener('scroll', onScroll);
-    // }, 1000);
-    shouldResumeScroll = false;
-    setTimeout(() => {
-      shouldResumeScroll = true;
-    }, 1000);
   }
-  // }
 }
-
-function onPauseScroll() {
-  // isScrollingEnabled = false;
-  isScrollingEnabled = !isScrollingEnabled;
-  shouldResumeScroll = false;
-  setTimeout(() => {
-    shouldResumeScroll = true;
-    isScrollingEnabled = true
-  }, 1000);
-}
-
-
-// window.addEventListener('wheel', onWheel);
-
-// function onWheel(event) {
-//   if (event.deltaY < 0) { // проверяем, что прокручиваем вверх
-//     startAutoScrollUp();
-//   }
-// }
-
-// function startAutoScrollUp() {
-//   isScrollingEnabled = true;
-//   shouldResumeScroll = true;
-//   window.addEventListener('scroll', onScroll);
-// }
-

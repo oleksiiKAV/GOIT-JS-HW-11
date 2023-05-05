@@ -65,7 +65,12 @@ form.search-form::after {
 .load-more {
   margin: 0 auto;
   max-width: 200px;
+  /* position: relative; */
   position: relative;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+
   background-color: #2196F3;
   border: none;
   font-size: 14px;
@@ -164,9 +169,10 @@ form.search-form::after {
   display: flex;
 }
 
-.btn-to-top {
+.btn-to-top,
+.btn-to-dwn {
   position: fixed;
-  bottom: 2vh;
+  bottom: 9vh;
   right: 1vw;
   z-index: 1000;
   width: 50px;
@@ -181,6 +187,11 @@ form.search-form::after {
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
+}
+
+.btn-to-dwn {
+  bottom: 1vh;
+  right: 1vw;
 }
 
 .btn-to-top--visible {
